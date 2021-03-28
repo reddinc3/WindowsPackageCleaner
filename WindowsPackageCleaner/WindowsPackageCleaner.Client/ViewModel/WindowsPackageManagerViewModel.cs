@@ -3,23 +3,27 @@ using Windows.ApplicationModel;
 
 namespace WindowsPackageCleaner.Client.ViewModel
 {
-    class WindowsPackageManagerViewModel
+    /// <summary>
+    /// A View-Model class for the WindowsPackageManager application.
+    /// </summary>
+    public class WindowsPackageManagerViewModel
     {
-        public WindowsPackageManagerViewModel()
-        {
-            LoadPackages();
-        }
+        /// <summary>
+        /// Initialise an instance of the <see cref="WindowsPackageManagerViewModel"/> class.
+        /// </summary>
+        public WindowsPackageManagerViewModel() => RetrieveInstalledPackages();
 
-        public ObservableCollection<Package> Packages
-        {
-            get;
-            set;
-        }
+        /// <summary>
+        /// Represents the packages currently being presented on the WindowsPackageManager view.
+        /// </summary>
+        public ObservableCollection<Package> Packages { get; private set; }
 
-        public void LoadPackages()
+        /// <summary>
+        /// Retrieve the installed packages on the user's machine when the application loads.
+        /// </summary>
+        private void RetrieveInstalledPackages()
         {
             ObservableCollection<Package> packages = new ObservableCollection<Package>();
-
             Packages = packages;
         }
     }
