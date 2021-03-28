@@ -13,15 +13,7 @@
 
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation = "Horizontal">
-
-                            <TextBox Text = "{Binding Path = word1, Mode = OneWay}" 
-                        Width = "100" Margin = "3 5 3 5"/>
-
-                            <TextBox Text = "{Binding Path = word2, Mode = OneWay}" 
-                        Width = "100" Margin = "3 5 3 5"/>
-
-                        </StackPanel>
+                        
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
 
