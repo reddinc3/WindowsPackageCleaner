@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using WindowsPackageCleaner.Client.ViewModel;
 
 namespace WindowsPackageCleaner.Client
 {
@@ -7,10 +8,14 @@ namespace WindowsPackageCleaner.Client
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        /// <summary>
+        /// Initialise an instance of the <see cref="MainWindow"/>.
+        /// </summary>
+        /// <param name="windowsPackageManagerViewModel">A View-Model implementation to be used in conjunction with the main window.</param>
+        public MainWindow(WindowsPackageManagerViewModel windowsPackageManagerViewModel)
         {
             InitializeComponent();
-            this.DataContext = new ViewModel.WindowsPackageManagerViewModel();
+            this.DataContext = windowsPackageManagerViewModel;
         }
     }
 }
