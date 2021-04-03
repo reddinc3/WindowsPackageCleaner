@@ -1,5 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using Windows.ApplicationModel;
+using WindowsPackageCleaner.Client.Helpers;
+using WindowsPackageCleaner.Client.Helpers.Interfaces;
 
 namespace WindowsPackageCleaner.Client.ViewModel
 {
@@ -9,9 +12,9 @@ namespace WindowsPackageCleaner.Client.ViewModel
     public class WindowsPackageManagerViewModel
     {
         /// <summary>
-        /// Initialise an instance of the <see cref="WindowsPackageManagerViewModel"/> class.
+        /// An instance of the <see cref="IWindowsPackageManager"/> to handle all Windows 8/10 package management.
         /// </summary>
-        public WindowsPackageManagerViewModel() => RetrieveInstalledPackages();
+        private IWindowsPackageManager _windowsPackageManager;
 
         /// <summary>
         /// Represents the packages currently being presented on the WindowsPackageManager view.
@@ -19,12 +22,18 @@ namespace WindowsPackageCleaner.Client.ViewModel
         public ObservableCollection<Package> Packages { get; private set; }
 
         /// <summary>
+        /// Initialise an instance of the <see cref="WindowsPackageManagerViewModel"/> class.
+        /// </summary>
+        public WindowsPackageManagerViewModel()
+        {
+            _windowsPackageManager = new WindowsPackageManager();
+            RetrieveInstalledPackages();
+        }
+
+        /// <summary>
         /// Retrieve the installed packages on the user's machine when the application loads.
         /// </summary>
-        private void RetrieveInstalledPackages()
-        {
-            ObservableCollection<Package> packages = new ObservableCollection<Package>();
-            Packages = packages;
-        }
+        private async void RetrieveInstalledPackages()
+            => Packages = new ObservableCollection<Package>(await _windowsPackageManager.GetInstalledPackages().ConfigureAwait(true));
     }
 }
