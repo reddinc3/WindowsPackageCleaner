@@ -104,6 +104,7 @@
     <Compile Include="Models\UninstallPackageResponse.cs" />
     <Compile Include="Helpers\Interfaces\IWindowsPackageManager.cs" />
     <Compile Include="Helpers\WindowsPackageManager.cs" />
+    <Compile Include="Models\WindowsPackage.cs" />
     <Compile Include="ViewModel\WindowsPackageManagerViewModel.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

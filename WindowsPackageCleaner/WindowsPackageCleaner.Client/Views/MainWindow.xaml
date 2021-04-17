@@ -4,17 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Height="450"
-        Title="MainWindow"
-        Width="800">
-    <Grid>
-        <StackPanel HorizontalAlignment = "Left">
-            <ItemsControl ItemsSource = "{Binding Path = Packages}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </StackPanel>
-    </Grid>
+        ResizeMode="NoResize"
+        Title="MainWindow">
+
+    <DataGrid AutoGenerateColumns="False" HorizontalAlignment="Left" ItemsSource="{Binding Packages}" Margin="10" VerticalAlignment="Top">
+        <DataGrid.Columns>
+            <DataGridCheckBoxColumn/>
+            <DataGridTextColumn Binding="{Binding DisplayName}" CanUserSort="True" Header="Display Name" Width="Auto"/>
+            <DataGridTextColumn Binding="{Binding Publisher}" CanUserSort="True" Header="Publisher" Width="Auto"/>
+            <DataGridTextColumn Binding="{Binding InstalledDate}" CanUserSort="True" Header="Installed Date" Width="Auto"/>
+            <DataGridTextColumn Binding="{Binding Version}" Header="Version" Width="Auto"/>
+        </DataGrid.Columns>
+    </DataGrid>
 </Window>

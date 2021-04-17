@@ -16,6 +16,8 @@ namespace WindowsPackageCleaner.Client
         {
             InitializeComponent();
             this.DataContext = windowsPackageManagerViewModel;
+            this.Height = SystemParameters.PrimaryScreenHeight * 0.60;
+            this.Width = SystemParameters.PrimaryScreenWidth * 0.60;
         }
     }
 }

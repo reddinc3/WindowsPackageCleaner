@@ -23,29 +23,39 @@ namespace WindowsPackageCleaner.Client.Helpers
         public WindowsPackageManager() => _packageManager = new PackageManager();
 
         /// <inheritdoc/>
-        public Task<IList<Package>> GetInstalledPackages()
+        public Task<IList<WindowsPackage>> GetInstalledPackages()
         {
             IList<Package> installedPackages = _packageManager
                 .FindPackagesForUser(string.Empty)
                 .Where(p => !string.IsNullOrEmpty(p.DisplayName))
                 .ToList();
 
-            return Task.FromResult(installedPackages);
+            IList<WindowsPackage> installedWindowsPackages = new List<WindowsPackage>();
+            installedPackages.ToList().ForEach(p => installedWindowsPackages.Add(
+                new WindowsPackage
+                {
+                    DisplayName = p.DisplayName ?? "Display Name Not Found",
+                    Publisher = p.PublisherDisplayName ?? "Publisher Not Found",
+                    InstalledDate = p.InstalledDate.ToString("dd/MM/yyyy"),
+                    Version = $"{p.Id.Version.Build}.{p.Id.Version.Major}.{p.Id.Version.Minor}"
+                }));
+
+            return Task.FromResult(installedWindowsPackages);
         }
 
         /// <inheritdoc/>
-        public Task<IList<UninstallPackageResponse>> UninstallPackages(IEnumerable<Package> packages)
+        public Task<IList<UninstallPackageResponse>> UninstallPackages(IEnumerable<WindowsPackage> packages)
         {
             IList<UninstallPackageResponse> uninstallResponses = new List<UninstallPackageResponse>();
-            foreach (Package package in packages)
+            foreach (WindowsPackage package in packages)
             {
                 IAsyncOperationWithProgress<DeploymentResult, DeploymentProgress> result
-                    = _packageManager.RemovePackageAsync(package.Id.FullName);
+                    = _packageManager.RemovePackageAsync(package.ID.FullName);
 
                 uninstallResponses.Add(new UninstallPackageResponse
                 {
                     ErrorMessage = result.ErrorCode?.Message ?? string.Empty,
-                    PackageId = package.Id,
+                    PackageId = package.ID,
                     PackageName = package.DisplayName,
                     Success = string.IsNullOrEmpty(result.ErrorCode?.Message ?? string.Empty)
                 });

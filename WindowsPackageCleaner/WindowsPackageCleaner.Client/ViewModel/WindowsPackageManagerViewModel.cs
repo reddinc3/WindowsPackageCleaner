@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
-using Windows.ApplicationModel;
 using WindowsPackageCleaner.Client.Helpers.Interfaces;
+using WindowsPackageCleaner.Client.Models;
 
 namespace WindowsPackageCleaner.Client.ViewModel
 {
@@ -17,7 +17,7 @@ namespace WindowsPackageCleaner.Client.ViewModel
         /// <summary>
         /// Represents the packages currently being presented on the WindowsPackageManager view.
         /// </summary>
-        public ObservableCollection<Package> Packages { get; private set; }
+        public ObservableCollection<WindowsPackage> Packages { get; private set; }
 
         /// <summary>
         /// Initialise an instance of the <see cref="WindowsPackageManagerViewModel"/> class.
@@ -33,6 +33,6 @@ namespace WindowsPackageCleaner.Client.ViewModel
         /// Retrieve the installed packages on the user's machine when the application loads.
         /// </summary>
         private async void RetrieveInstalledPackages()
-            => Packages = new ObservableCollection<Package>(await _windowsPackageManager.GetInstalledPackages().ConfigureAwait(true));
+            => Packages = new ObservableCollection<WindowsPackage>(await _windowsPackageManager.GetInstalledPackages().ConfigureAwait(true));
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
 using WindowsPackageCleaner.Client.Models;
 
 namespace WindowsPackageCleaner.Client.Helpers.Interfaces
@@ -14,13 +13,13 @@ namespace WindowsPackageCleaner.Client.Helpers.Interfaces
         /// Retrieves a collection of installed Windows 10 packages for the current user.
         /// </summary>
         /// <returns>An <see cref="IList{T}"/> of the Windows 10 packages currently installed on the user's machine.</returns>
-        Task<IList<Package>> GetInstalledPackages();
+        Task<IList<WindowsPackage>> GetInstalledPackages();
 
         /// <summary>
         /// Attempts to uninstall a collection of Windows packages.
         /// </summary>
         /// <param name="packages">The packages to be uninstalled.</param>
         /// <returns>An <see cref="IList{T}"/> of response objects denoting whether or not each uninstallation succeeded.</returns>
-        Task<IList<UninstallPackageResponse>> UninstallPackages(IEnumerable<Package> packages);
+        Task<IList<UninstallPackageResponse>> UninstallPackages(IEnumerable<WindowsPackage> packages);
     }
 }
