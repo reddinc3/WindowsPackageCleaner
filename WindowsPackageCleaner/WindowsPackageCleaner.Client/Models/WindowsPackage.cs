@@ -23,6 +23,11 @@ namespace WindowsPackageCleaner.Client.Models
         public string Publisher { get; set; }
 
         /// <summary>
+        /// Whether or not the package has been designated for uninstallation.
+        /// </summary>
+        public bool IsChecked { get; set; }
+
+        /// <summary>
         /// The date on which this package was installed or last updated.
         /// </summary>
         public string InstalledDate { get; set; }
