@@ -20,6 +20,6 @@ namespace WindowsPackageCleaner.Client.Helpers.Interfaces
         /// </summary>
         /// <param name="packages">The packages to be uninstalled.</param>
         /// <returns>An <see cref="IList{T}"/> of response objects denoting whether or not each uninstallation succeeded.</returns>
-        Task<IList<UninstallPackageResponse>> UninstallPackages(IEnumerable<WindowsPackage> packages);
+        Task<IList<UninstallPackageResponse>> UninstallPackages(IList<WindowsPackage> packages);
     }
 }

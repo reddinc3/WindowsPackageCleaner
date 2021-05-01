@@ -21,7 +21,7 @@
             <ColumnDefinition Width="200"/>
         </Grid.ColumnDefinitions>
 
-        <DataGrid AutoGenerateColumns="False" DataContext="{StaticResource packagesView}" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="10" VerticalAlignment="Top">
+        <DataGrid AutoGenerateColumns="False" CanUserAddRows="False" DataContext="{StaticResource packagesView}" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="10" VerticalAlignment="Top">
             <DataGrid.Columns>
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
@@ -36,6 +36,7 @@
                 <DataGridTextColumn Binding="{Binding Version}" Header="Version" Width="Auto"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Content="Uninstall Selected" Grid.Column="1" Grid.Row="1" Command="{Binding}" Margin="10" Width="100" VerticalAlignment="Bottom"/>
+
+        <Button Content="Uninstall Selected" Command="{Binding UninstallCommand}" Grid.Column="1" Grid.Row="1" Margin="10" VerticalAlignment="Bottom" Width="100"/>
     </Grid>
 </Window>

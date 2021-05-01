@@ -1,4 +1,9 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows;
+using System.Windows.Input;
+using WindowsPackageCleaner.Client.Commands;
 using WindowsPackageCleaner.Client.Helpers.Interfaces;
 using WindowsPackageCleaner.Client.Models;
 
@@ -12,12 +17,17 @@ namespace WindowsPackageCleaner.Client.ViewModel
         /// <summary>
         /// An instance of the <see cref="IWindowsPackageManager"/> to handle all Windows 8/10 package management.
         /// </summary>
-        private readonly IWindowsPackageManager _windowsPackageManager;
+        private IWindowsPackageManager _windowsPackageManager;
 
         /// <summary>
         /// Represents the packages currently being presented on the WindowsPackageManager view.
         /// </summary>
-        public ObservableCollection<WindowsPackage> Packages { get; private set; }
+        public ObservableCollection<WindowsPackage> Packages { get; set; }
+
+        /// <summary>
+        /// A relay command to bind to the UI to allow a user to uninstall a set of packages.
+        /// </summary>
+        public ICommand UninstallCommand { get; private set; }
 
         /// <summary>
         /// Initialise an instance of the <see cref="WindowsPackageManagerViewModel"/> class.
@@ -26,6 +36,7 @@ namespace WindowsPackageCleaner.Client.ViewModel
         public WindowsPackageManagerViewModel(IWindowsPackageManager windowsPackageManager)
         {
             _windowsPackageManager = windowsPackageManager;
+            UninstallCommand = new RelayCommand<object>((param) => { UninstallPackages(); });
             RetrieveInstalledPackages();
         }
 
@@ -34,5 +45,28 @@ namespace WindowsPackageCleaner.Client.ViewModel
         /// </summary>
         private async void RetrieveInstalledPackages()
             => Packages = new ObservableCollection<WindowsPackage>(await _windowsPackageManager.GetInstalledPackages().ConfigureAwait(true));
+
+        /// <summary>
+        /// Uninstall a collection of packages via the <see cref="IWindowsPackageManager"/>.
+        /// </summary>
+        private async void UninstallPackages()
+        {
+            IList<WindowsPackage> packagesToUninstall = Packages.Where(p => p.IsChecked).ToList();
+            IList<UninstallPackageResponse> uninstallResponses = await _windowsPackageManager.UninstallPackages(packagesToUninstall).ConfigureAwait(false);
+
+            foreach (UninstallPackageResponse uninstallResponse in uninstallResponses)
+            {
+                if (uninstallResponse.Success)
+                {
+                    packagesToUninstall.Remove(uninstallResponse.Package);
+                    Packages.Remove(uninstallResponse.Package);
+                }
+            }
+
+            if (packagesToUninstall.Count > 0)
+            {
+                MessageBox.Show($"The following packages failed to uninstall: {string.Join(",", packagesToUninstall.Select(p => p.DisplayName))}");
+            }
+        }
     }
 }

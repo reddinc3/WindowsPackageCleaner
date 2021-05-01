@@ -13,14 +13,9 @@ namespace WindowsPackageCleaner.Client.Models
         public string ErrorMessage { get; set; }
 
         /// <summary>
-        /// The ID of the package being uninstalled.
+        /// The package being uninstalled.
         /// </summary>
-        public PackageId PackageId { get; set; }
-
-        /// <summary>
-        /// The name of the package being uninstalled.
-        /// </summary>
-        public string PackageName { get; set; }
+        public WindowsPackage Package { get; set; }
 
         /// <summary>
         /// Whether or not the uninstallation succeeded.

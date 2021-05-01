@@ -101,6 +101,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AutoFacModules\WindowPackageCleanerModule.cs" />
+    <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Models\UninstallPackageResponse.cs" />
     <Compile Include="Helpers\Interfaces\IWindowsPackageManager.cs" />
     <Compile Include="Helpers\WindowsPackageManager.cs" />

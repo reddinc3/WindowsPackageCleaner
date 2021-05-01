@@ -20,7 +20,7 @@ namespace WindowsPackageCleaner.Client.Helpers
         /// <summary>
         /// Initialise an instance of <see cref="WindowsPackageManager"/> class.
         /// </summary>
-        public WindowsPackageManager() => _packageManager = new PackageManager();
+        public WindowsPackageManager(PackageManager packageManager) => _packageManager = packageManager;
 
         /// <inheritdoc/>
         public Task<IList<WindowsPackage>> GetInstalledPackages()
@@ -34,6 +34,7 @@ namespace WindowsPackageCleaner.Client.Helpers
             installedPackages.ToList().ForEach(p => installedWindowsPackages.Add(
                 new WindowsPackage
                 {
+                    ID = p.Id,
                     DisplayName = p.DisplayName ?? "Display Name Not Found",
                     Publisher = p.PublisherDisplayName ?? "Publisher Not Found",
                     InstalledDate = p.InstalledDate.ToString("dd/MM/yyyy"),
@@ -44,7 +45,7 @@ namespace WindowsPackageCleaner.Client.Helpers
         }
 
         /// <inheritdoc/>
-        public Task<IList<UninstallPackageResponse>> UninstallPackages(IEnumerable<WindowsPackage> packages)
+        public Task<IList<UninstallPackageResponse>> UninstallPackages(IList<WindowsPackage> packages)
         {
             IList<UninstallPackageResponse> uninstallResponses = new List<UninstallPackageResponse>();
             foreach (WindowsPackage package in packages)
@@ -55,8 +56,7 @@ namespace WindowsPackageCleaner.Client.Helpers
                 uninstallResponses.Add(new UninstallPackageResponse
                 {
                     ErrorMessage = result.ErrorCode?.Message ?? string.Empty,
-                    PackageId = package.ID,
-                    PackageName = package.DisplayName,
+                    Package = package,
                     Success = string.IsNullOrEmpty(result.ErrorCode?.Message ?? string.Empty)
                 });
             }
