@@ -61,24 +61,14 @@ namespace WindowsPackageCleaner.Client.ViewModel
             }
 
             IList<UninstallPackageResponse> uninstallResponses = await _windowsPackageManager.UninstallPackages(packagesToUninstall).ConfigureAwait(false);
-            IList<UninstallPackageResponse> uninstallFails = new List<UninstallPackageResponse>();
 
             foreach (UninstallPackageResponse uninstallResponse in uninstallResponses)
-            {
                 if (uninstallResponse.Success)
-                {
-                    packagesToUninstall.Remove(uninstallResponse.Package);
                     Packages.Remove(uninstallResponse.Package);
-                }
-                else
-                    uninstallFails.Add(uninstallResponse);
-            }
 
-            if (uninstallFails.Count > 0)
-            {
+            if (uninstallResponses.Where(p => !p.Success).ToList().Count > 0)
                 MessageBox.Show($"The following packages failed to uninstall:{Environment.NewLine}{Environment.NewLine}" +
-                    $"{string.Join($"{Environment.NewLine}", uninstallFails.Select(p => $"{p.Package.DisplayName}{Environment.NewLine}\tError: {p.ErrorMessage}{Environment.NewLine}"))}");
-            }
+                    $"{string.Join($"{Environment.NewLine}", uninstallResponses.Where(p => !p.Success).Select(p => $"{p.Package.DisplayName}{Environment.NewLine}\tError: {p.ErrorMessage}{Environment.NewLine}"))}");
         }
     }
 }
