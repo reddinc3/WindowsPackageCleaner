@@ -16,12 +16,16 @@
     </Window.Resources>
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
 
-        <DataGrid AutoGenerateColumns="False" CanUserAddRows="False" DataContext="{StaticResource packagesView}" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" ItemsSource="{Binding}" Margin="10" VerticalAlignment="Top">
+        <DataGrid AutoGenerateColumns="False" CanUserAddRows="False" AlternatingRowBackground="LightGray"  DataContext="{StaticResource packagesView}" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" ItemsSource="{Binding}">
             <DataGrid.Columns>
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
@@ -30,13 +34,13 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Binding="{Binding DisplayName}" CanUserSort="True" Header="Display Name" Width="Auto"/>
-                <DataGridTextColumn Binding="{Binding Publisher}" CanUserSort="True" Header="Publisher" Width="Auto"/>
-                <DataGridTextColumn Binding="{Binding InstalledDate}" CanUserSort="True" Header="Installed Date" Width="Auto"/>
-                <DataGridTextColumn Binding="{Binding Version}" Header="Version" Width="Auto"/>
+                <DataGridTextColumn Binding="{Binding DisplayName}" CanUserSort="True" Header="Display Name" Width="*"/>
+                <DataGridTextColumn Binding="{Binding Publisher}" CanUserSort="True" Header="Publisher" Width="*"/>
+                <DataGridTextColumn Binding="{Binding InstalledDate}" CanUserSort="True" Header="Installed Date" Width="*"/>
+                <DataGridTextColumn Binding="{Binding Version}" Header="Version" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
 
-        <Button Content="Uninstall Selected" Command="{Binding UninstallCommand}" Grid.Column="1" Grid.Row="1" Margin="10" VerticalAlignment="Bottom" Width="100"/>
+        <Button Content="Uninstall Selected" Command="{Binding UninstallCommand}" Grid.Column="0" Grid.Row="1" Margin="10" Width="100"/>
     </Grid>
 </Window>
