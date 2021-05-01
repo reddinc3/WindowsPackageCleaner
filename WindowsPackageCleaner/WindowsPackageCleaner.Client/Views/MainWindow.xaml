@@ -16,12 +16,12 @@
     </Window.Resources>
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="200"/>
-        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
 
-        <DataGrid AutoGenerateColumns="False" CanUserAddRows="False" DataContext="{StaticResource packagesView}" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="10" VerticalAlignment="Top">
+        <DataGrid AutoGenerateColumns="False" CanUserAddRows="False" DataContext="{StaticResource packagesView}" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" ItemsSource="{Binding}" Margin="10" VerticalAlignment="Top">
             <DataGrid.Columns>
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
