@@ -54,7 +54,7 @@ namespace WindowsPackageCleaner.Client.ViewModel
         {
             IList<WindowsPackage> packagesToUninstall = Packages.Where(p => p.IsChecked).ToList();
 
-            if (packagesToUninstall.Count == 0)
+            if (!packagesToUninstall.Any())
             {
                 MessageBox.Show($"Please select packages to uninstall.");
                 return;
@@ -66,9 +66,10 @@ namespace WindowsPackageCleaner.Client.ViewModel
                 if (uninstallResponse.Success)
                     Packages.Remove(uninstallResponse.Package);
 
-            if (uninstallResponses.Where(p => !p.Success).ToList().Count > 0)
-                MessageBox.Show($"The following packages failed to uninstall:{Environment.NewLine}{Environment.NewLine}" +
-                    $"{string.Join($"{Environment.NewLine}", uninstallResponses.Where(p => !p.Success).Select(p => $"{p.Package.DisplayName}{Environment.NewLine}\tError: {p.ErrorMessage}{Environment.NewLine}"))}");
+            if (uninstallResponses.ToList().Exists(p => !p.Success))
+                MessageBox.Show(
+                    $"The following packages failed to uninstall:{Environment.NewLine}{Environment.NewLine}" +
+                    $"{string.Join($"{Environment.NewLine}", uninstallResponses.Where(p => !p.Success).Select(p => $"{p.Package.DisplayName}{Environment.NewLine}Error: {p.ErrorMessage}{Environment.NewLine}"))}");
         }
     }
 }

@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         mc:Ignorable="d"
         ResizeMode="NoResize"
-        Title="Windows Package Cleaner">
+        Title="Windows Package Cleaner"
+        WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
         <CollectionViewSource x:Key="packagesView" Source="{Binding Packages}">
@@ -36,7 +37,7 @@
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Binding="{Binding DisplayName}" CanUserSort="True" Header="Display Name" Width="*"/>
                 <DataGridTextColumn Binding="{Binding Publisher}" CanUserSort="True" Header="Publisher" Width="*"/>
-                <DataGridTextColumn Binding="{Binding InstalledDate}" CanUserSort="True" Header="Installed Date" Width="*"/>
+                <DataGridTextColumn Binding="{Binding InstalledDate}" CanUserSort="True" Header="Installed Date (Year/Month/Day)" Width="*"/>
                 <DataGridTextColumn Binding="{Binding Version}" Header="Version" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
