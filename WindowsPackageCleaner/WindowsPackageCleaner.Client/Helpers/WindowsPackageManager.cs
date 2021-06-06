@@ -37,7 +37,7 @@ namespace WindowsPackageCleaner.Client.Helpers
                     ID = p.Id,
                     DisplayName = p.DisplayName ?? "Display Name Not Found",
                     Publisher = p.PublisherDisplayName ?? "Publisher Not Found",
-                    InstalledDate = p.InstalledDate.ToString("dd/MM/yyyy"),
+                    InstalledDate = p.InstalledDate.ToString("yyyy/MM/dd"),
                     Version = $"{p.Id.Version.Build}.{p.Id.Version.Major}.{p.Id.Version.Minor}"
                 }));
 
@@ -48,6 +48,7 @@ namespace WindowsPackageCleaner.Client.Helpers
         public Task<IList<UninstallPackageResponse>> UninstallPackages(IList<WindowsPackage> packages)
         {
             IList<UninstallPackageResponse> uninstallResponses = new List<UninstallPackageResponse>();
+
             foreach (WindowsPackage package in packages)
             {
                 IAsyncOperationWithProgress<DeploymentResult, DeploymentProgress> result
@@ -60,6 +61,7 @@ namespace WindowsPackageCleaner.Client.Helpers
                     Success = string.IsNullOrEmpty(result.ErrorCode?.Message ?? string.Empty)
                 });
             }
+
             return Task.FromResult(uninstallResponses);
         }
     }
