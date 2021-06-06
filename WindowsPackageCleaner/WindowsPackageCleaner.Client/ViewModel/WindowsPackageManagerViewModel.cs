@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -52,21 +53,23 @@ namespace WindowsPackageCleaner.Client.ViewModel
         private async void UninstallPackages()
         {
             IList<WindowsPackage> packagesToUninstall = Packages.Where(p => p.IsChecked).ToList();
+
+            if (!packagesToUninstall.Any())
+            {
+                MessageBox.Show($"Please select packages to uninstall.");
+                return;
+            }
+
             IList<UninstallPackageResponse> uninstallResponses = await _windowsPackageManager.UninstallPackages(packagesToUninstall).ConfigureAwait(false);
 
             foreach (UninstallPackageResponse uninstallResponse in uninstallResponses)
-            {
                 if (uninstallResponse.Success)
-                {
-                    packagesToUninstall.Remove(uninstallResponse.Package);
                     Packages.Remove(uninstallResponse.Package);
-                }
-            }
 
-            if (packagesToUninstall.Count > 0)
-            {
-                MessageBox.Show($"The following packages failed to uninstall: {string.Join(",", packagesToUninstall.Select(p => p.DisplayName))}");
-            }
+            if (uninstallResponses.ToList().Exists(p => !p.Success))
+                MessageBox.Show(
+                    $"The following packages failed to uninstall:{Environment.NewLine}{Environment.NewLine}" +
+                    $"{string.Join($"{Environment.NewLine}", uninstallResponses.Where(p => !p.Success).Select(p => $"{p.Package.DisplayName}{Environment.NewLine}Error: {p.ErrorMessage}{Environment.NewLine}"))}");
         }
     }
 }

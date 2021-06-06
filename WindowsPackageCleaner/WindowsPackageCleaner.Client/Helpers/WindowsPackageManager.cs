@@ -37,7 +37,7 @@ namespace WindowsPackageCleaner.Client.Helpers
                     ID = p.Id,
                     DisplayName = p.DisplayName ?? "Display Name Not Found",
                     Publisher = p.PublisherDisplayName ?? "Publisher Not Found",
-                    InstalledDate = p.InstalledDate.ToString("dd/MM/yyyy"),
+                    InstalledDate = p.InstalledDate.ToString("yyyy/MM/dd"),
                     Version = $"{p.Id.Version.Build}.{p.Id.Version.Major}.{p.Id.Version.Minor}"
                 }));
 
