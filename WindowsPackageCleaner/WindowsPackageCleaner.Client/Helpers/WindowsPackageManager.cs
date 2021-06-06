@@ -48,6 +48,7 @@ namespace WindowsPackageCleaner.Client.Helpers
         public Task<IList<UninstallPackageResponse>> UninstallPackages(IList<WindowsPackage> packages)
         {
             IList<UninstallPackageResponse> uninstallResponses = new List<UninstallPackageResponse>();
+
             foreach (WindowsPackage package in packages)
             {
                 IAsyncOperationWithProgress<DeploymentResult, DeploymentProgress> result
@@ -60,6 +61,7 @@ namespace WindowsPackageCleaner.Client.Helpers
                     Success = string.IsNullOrEmpty(result.ErrorCode?.Message ?? string.Empty)
                 });
             }
+
             return Task.FromResult(uninstallResponses);
         }
     }
