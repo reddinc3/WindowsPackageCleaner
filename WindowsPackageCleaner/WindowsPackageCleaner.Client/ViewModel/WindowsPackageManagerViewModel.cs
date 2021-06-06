@@ -56,18 +56,18 @@ namespace WindowsPackageCleaner.Client.ViewModel
 
             if (!packagesToUninstall.Any())
             {
-                MessageBox.Show($"Please select packages to uninstall.");
+                MessageBox.Show($"Please select a package, or packages to uninstall.");
                 return;
             }
 
-            IList<UninstallPackageResponse> uninstallResponses = await _windowsPackageManager.UninstallPackages(packagesToUninstall).ConfigureAwait(false);
+            IList<UninstallPackageResponse> uninstallResponses
+                = await _windowsPackageManager.UninstallPackages(packagesToUninstall).ConfigureAwait(false);
 
             foreach (UninstallPackageResponse uninstallResponse in uninstallResponses)
                 if (uninstallResponse.Success)
                     Packages.Remove(uninstallResponse.Package);
 
             string message = string.Empty;
-
             if (uninstallResponses.ToList().Exists(p => p.Success))
                 message += $"The following packages were successfully uninstalled:{Environment.NewLine}  " +
                     $"{string.Join($"{Environment.NewLine}  ", uninstallResponses.Where(p => p.Success).Select(p => $"{p.Package.DisplayName}"))}";
